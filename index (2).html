@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bếp 10A1</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#b40000;color:#fff}
+.container{max-width:1000px;margin:auto;padding:20px}
+h1,h2{text-align:center;color:#ffd966}
+
+.tabs{display:flex;justify-content:center;gap:10px;margin:20px 0}
+.tab{padding:10px 20px;border-radius:20px;background:#8b0000;cursor:pointer;font-weight:bold}
+.tab.active{background:#ffd966;color:#8b0000}
+
+.content{display:none}
+.content.active{display:block}
+
+.menu{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+.item{
+  background:#8b0000;
+  padding:15px;
+  border-radius:12px;
+  text-align:center;
+}
+.item img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+form{
+  background:#8b0000;
+  padding:20px;
+  border-radius:12px;
+  margin-top:30px;
+}
+label{display:block;margin-top:12px;font-weight:bold}
+select,input,button{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:6px;
+  border:none;
+}
+button{
+  background:#ffd966;
+  color:#8b0000;
+  font-weight:bold;
+  margin-top:15px;
+  cursor:pointer;
+}
+
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th,td{border:1px solid #ffd966;padding:6px;text-align:center}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tab {
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .menu {
+    grid-template-columns: 1fr;
+  }
+
+  .item img {
+    height: 120px;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  select,
+  input,
+  button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 4px;
+  }
+}
+
+.header{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.header h1{
+  font-size:48px;
+  letter-spacing:4px;
+  margin-bottom:6px;
+  color:#ffd966;
+  position: relative;
+  text-shadow:
+    0 2px 0 #8b0000,
+    0 4px 0 #7a0000,
+    0 6px 12px rgba(0,0,0,0.45),
+    0 0 18px rgba(255,217,102,0.6);
+
+  animation: glow 2.5s ease-in-out infinite alternate;
+}
+
+.sub-title{
+  font-size:16px;
+  color:#fff2b0;
+  font-weight:bold;
+  opacity:0.9;
+}
+
+/* Mobile */
+@media (max-width:600px){
+  .header h1{
+    font-size:30px;
+  }
+  .sub-title{
+    font-size:14px;
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 2px 0 #8b0000,
+      0 4px 0 #7a0000,
+      0 6px 12px rgba(0,0,0,0.45),
+      0 0 10px rgba(255,217,102,0.4);
+  }
+  to {
+    text-shadow:
+      0 2px 0 #8b0000,
+      0 4px 0 #7a0000,
+      0 6px 14px rgba(0,0,0,0.6),
+      0 0 26px rgba(255,217,102,0.9);
+  }
+}
+
+.header h1::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.6) 50%,
+    transparent 100%
+  );
+  animation: shine 3.5s infinite;
+}
+
+.qr-text {
+  font-size: 42px;
+  font-weight: 800;
+  text-align: center;
+
+  background: linear-gradient(
+    120deg,
+    #ffffff,
+    #cfcfcf,
+    #ffffff
+  );
+  background-size: 300% 300%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: textShine 3.5s linear infinite;
+}
+
+@keyframes textShine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+.notice-popup{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(135deg,#ffcc00,#ff5f5f);
+  color:#8b0000;
+  padding:14px 22px;
+  border-radius:14px;
+  font-weight:800;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  z-index:9999;
+  animation: popIn 0.4s ease, popOut 0.4s ease 4s forwards;
+}
+
+.notice-popup .title{
+  font-size:18px;
+  margin-bottom:6px;
+}
+
+.notice-popup .content{
+  font-size:14px;
+}
+
+@keyframes popIn{
+  from{
+    opacity:0;
+    transform:translate(-50%,-20px) scale(0.9);
+  }
+  to{
+    opacity:1;
+    transform:translate(-50%,0) scale(1);
+  }
+}
+
+@keyframes popOut{
+  to{
+    opacity:0;
+    transform:translate(-50%,-20px) scale(0.9);
+  }
+}
+
+.food-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.food-box{
+  background:#8b0000;
+  width:90%;
+  max-width:320px;
+  padding:18px;
+  border-radius:16px;
+  text-align:center;
+  animation: zoomIn .3s ease;
+}
+
+.food-box img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:10px;
+}
+
+.food-box h3{
+  color:#ffd966;
+  margin:8px 0;
+}
+
+.food-box p{
+  font-size:14px;
+  opacity:.95;
+}
+
+.food-box button{
+  margin-top:12px;
+  background:#ffd966;
+  color:#8b0000;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+@keyframes zoomIn{
+  from{transform:scale(.85);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* MÓN ĂN */
+.item{
+  transition: transform .25s ease, box-shadow .25s ease;
+  cursor: pointer;
+}
+
+.item:hover{
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0,0,0,.4);
+}
+
+.item:active{
+  transform: scale(0.96);
+}
+
+.content{
+  display:none;
+  animation: fadeSlide .3s ease;
+}
+
+.content.active{
+  display:block;
+}
+
+@keyframes fadeSlide{
+  from{
+    opacity:0;
+    transform: translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform: translateY(0);
+  }
+}
+
+.popup{
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  background: #ffd966;
+  color: #000;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: .4s ease;
+  z-index: 999;
+}
+
+.popup.show{
+  right: 20px;
+}
+
+</style>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDTr46c4M2XdwNd8M7mLvWQQEQ4qGe1wn4",
+      authDomain: "bep-10a1.firebaseapp.com",
+      databaseURL: "https://bep-10a1-default-rtdb.firebaseio.com",
+      projectId: "bep-10a1",
+      storageBucket: "bep-10a1.firebasestorage.app",
+      messagingSenderId: "1030275269286",
+      appId: "1:1030275269286:web:7b9ba2de345171d130ea67"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+  </script>
+
+</head>
+
+<div id="popup" class="popup">🔥 Đặt món thành công!</div>
+
+<body>
+<div class="container">
+<div class="header">
+  <h1>BẾP CỦA 10A1</h1>
+  <div class="sub-title">Gian hàng số 17 - THPT Bình Thạnh</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="openTab('order',this)">Đặt món</div>
+  <div class="tab" onclick="openTab('stat',this)">Thống kê đặt món</div>
+  <div class="tab" onclick="openTab('history',this)">Lịch sử</div>
+  <div class="tab" onclick="openTab('rate',this)">Đánh giá</div>
+</div>
+
+<!-- ===== ĐẶT MÓN ===== -->
+<div id="order" class="content active">
+
+  <div class="menu">
+     <div class="item">
+      <img src="https://i.pinimg.com/736x/6b/4f/6d/6b4f6d7684410bca24bc260cd9ca767c.jpg">
+      <h3>Bắp xào</h3>
+      <p>Nhỏ: 10.000đ</p>
+      <p>Lớn: 15.000đ</p>
+    </div>
+
+    <div class="item">
+      <img src="https://i.pinimg.com/1200x/85/e7/bf/85e7bf165cf04b34af87a1eb7d2468b1.jpg">
+      <h3>Xoài lắc</h3>
+      <p>5.000đ</p>
+    </div>
+
+    <div class="item">
+      <img src="https://i.pinimg.com/1200x/fa/98/0c/fa980cb323a1a8f14aed810fe759200b.jpg">
+      <h3>Trà tắc</h3>
+      <p>5.000đ</p>
+    </div>
+  </div>
+
+  <form onsubmit="addOrder(event)">
+    <h2>Đặt món</h2>
+
+    <label>Lớp</label>
+    <select id="class" onchange="loadStudents()" required>
+      <option value="">-- Chọn lớp --</option>
+    </select>
+
+    <label>Tên</label>
+    <select id="student" required>
+      <option value="">-- Chọn tên --</option>
+    </select>
+
+    <label>Món</label>
+    <select id="food">
+      <option value="bap-nho">Bắp xào (nhỏ)</option>
+      <option value="bap-lon">Bắp xào (lớn)</option>
+      <option value="xoai">Xoài lắc</option>
+      <option value="tra">Trà tắc</option>
+    </select>
+
+    <label>Số lượng</label>
+    <input type="number" id="qty" min="1" value="1">
+
+   <label>Ghi chú</label>
+   <input type="text" id="note" placeholder="Ví dụ: ít đá, cay hơn, giao sau...">
+
+    <button>Đặt món</button>
+  </form>
+
+</div>
+
+<!-- ===== THỐNG KÊ ===== -->
+<div id="stat" class="content">
+  <h2>Thống kê</h2>
+  <p>Bắp nhỏ: <span id="bap-nho">0</span></p>
+  <p>Bắp lớn: <span id="bap-lon">0</span></p>
+  <p>Xoài: <span id="xoai">0</span></p>
+  <p>Trà: <span id="tra">0</span></p>
+</div>
+
+<!-- ===== LỊCH SỬ ===== -->
+<div id="history" class="content">
+  <h2>Lịch sử đặt hàng</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tên</th>
+        <th>Lớp</th>
+        <th>Món</th>
+        <th>SL</th>
+        <th>Ghi chú</th>
+        <th>Thời gian</th>
+       </tr>
+    </thead>
+    <tbody id="history-body"></tbody>
+  </table>
+</div>
+
+<!-- ===== ĐÁNH GIÁ ===== -->
+<div id="rate" class="content">
+  <h2>Đánh giá món ăn</h2>
+
+  <form onsubmit="addReview(event)">
+    <label>Tên</label>
+    <input id="review-name" required>
+
+    <label>Lớp</label>
+    <input id="review-class" required>
+
+    <label>Món</label>
+    <select id="review-food">
+      <option value="Bắp xào">Bắp xào</option>
+      <option value="Xoài lắc">Xoài lắc</option>
+      <option value="Trà tắc">Trà tắc</option>
+    </select>
+
+    <label>Đánh giá (1–5 sao)</label>
+    <select id="review-star">
+      <option value="5">★★★★★</option>
+      <option value="4">★★★★</option>
+      <option value="3">★★★</option>
+      <option value="2">★★</option>
+      <option value="1">★</option>
+    </select>
+
+    <label>Nhận xét</label>
+    <input id="review-text" placeholder="Viết nhận xét ngắn">
+
+    <button>Gửi đánh giá</button>
+  </form>
+
+  <h3>Nhận xét</h3>
+  <ul id="review-list"></ul>
+</div>
+
+
+</div>
+
+<script>
+const studentsByClass = {
+ "10A1": [
+    "Nguyễn Ngọc Trâm Anh","Phạm Nguyễn Minh Anh","Trần Lan Anh","Trần Nguyễn Minh Anh",
+    "Hà Ngọc Bình","Phan Huỳnh Điệp","Nguyễn Quang Hà","Trần Nguyễn Ngọc Hân",
+    "Mai Gia Huy","Dương Ngọc Huyền","Trần Như Huỳnh","Huỳnh Thị Mỹ Kiều",
+    "Lê Tường Lam","Phạm Thị Mỹ Linh","Nguyễn Phương Nghi","Nguyễn Kim Ngọc",
+    "Trần Lê Thảo Nguyên","Lê Nguyễn Thảo Như","Lê Thị Quỳnh Như","Trịnh Tâm Như",
+    "Bùi Thị Diễm Phúc","Nguyễn Gia Phúc","Châu Thị Hồng Phượng","Huỳnh Thị Tú Sương",
+    "Bùi Phương Thảo","Trần Thị Kim Thi","Nguyễn Thị Hoài Thương","Mang Ngọc Tiền",
+    "Cao Thị Bích Trâm","Trần Thị Kim Tuyền","Nguyễn Lê Thanh Vân",
+    "Nguyễn Thị Thảo Vy","Trần Thị Phúc Yên","Trần Hoàng Yến"
+  ],
+
+  "10A2": [
+    "Hồ Quỳnh Anh","Phạm Hồng Anh","Phạm Trần Gia Bảo","Võ Lê Duy Bảo",
+    "Nguyễn Hoàng Duy","Trần Hoàng Gia","Huỳnh Phạm Thanh Hài","Dương Gia Hân",
+    "Tạ Gia Hân","Trần Lê Ngọc Hân","Trần Thị Ngọc Hồng","Nguyễn Đăng Khánh",
+    "Lê Hoàng Khôi","Bùi Anh Kiệt","Nguyễn Tiền Lợi","Huỳnh Khánh Ngọc",
+    "Nguyễn Bảo Ngọc","Vương Phan Như Ngọc","Trần Tín Nhân","Võ Thành Nhân",
+    "Trần Đặng Ngọc Như","Lê Anh Phát","Đinh Văn Yến Phi","Huỳnh Kim Phụng",
+    "Huỳnh Văn Tài","Huỳnh Văn Thành","Lâm Nguyễn Chí Thành","Phạm Thị Phương Thảo",
+    "Đoàn Minh Thiện","Tô Thị Minh Thơ","Ngô Diễm Thu","Huỳnh Đức Tiến",
+    "Nguyễn Mạnh Tiến","Đặng Thị Cẩm Tú","Biện Duy Tường"
+  ],
+
+  "10A3": [
+    "Nguyễn Xuân An","Huỳnh Ngọc Lan Anh","Lê Khắc Thiên Ân","Nguyễn Hồ Thiên Bảo",
+    "Trà Quốc Bảo","Nguyễn Trung Chánh","Nguyễn Thị Hồng Đào","Nguyễn Thành Đạt",
+    "Nguyễn Trần Hải Đăng","Lê Gia Hảo","Nguyễn Ngọc Hân","Liêu Quốc Huy",
+    "Lê Minh Kha","Dương Anh Kiệt","Võ Lâm Anh Kiệt","Lê Phù Gia Kỳ",
+    "Trịnh Nguyễn Tường Lam","Nguyễn Hoàng Lan","Nguyễn Thị Cẩm Loan",
+    "Nguyễn Vũ Luân","Nguyễn Quỳnh Mai","Nguyễn Minh Mẫn","Huỳnh Văn Mộng",
+    "Huỳnh Nguyễn Diễm My","Lý Thị Kiều My","Nguyễn Hiếu Nghĩa",
+    "Nguyễn Ngọc Thảo Nguyên","Trần Thị Nhanh","Nguyễn Lê Quốc Quyền",
+    "Hồ Văn Thịnh","Mai Nguyễn Phước Thọ","Ngô Huỳnh Thuận","Cao Thị Khánh Thư",
+    "Ngô Hoàng Kỳ Thư","Nguyễn Thị Kim Thy","Phạm Thị Thủy Tiên","Hồ Thanh Toàn",
+    "Võ Thị Hồng Trang","Đặng Thị Huỳnh Trâm","Nguyễn Thị Ngọc Trâm",
+    "Trần Thị Mỹ Trâm","Ngô Thị Quế Trân","Nguyễn Thị Bảo Trân",
+    "Lê Thị Cẩm Tú","Trịnh Thị Ánh Tuyết","Nguyễn Trịnh Tường"
+  ],
+
+  "10A4": [
+    "Nguyễn Thị Kim Anh","Phạm Hoài Ân","Ngô Khánh Băng","Nguyễn Thị Khánh Băng",
+    "Huỳnh Thị Trân Châu","Nguyễn Thị Bảo Châu","Nguyễn Huỳnh Kim Cương",
+    "Nguyễn Khương Duy","Lê Thành Đạt","Trần À Đức","Nguyễn Thái Hà",
+    "Nguyễn Thị Ngọc Hà","Ngô Quốc Hải","Phan Trần Hạo","Nguyễn Thị Mỹ Hoa",
+    "Mang Văn Hùng","Nguyễn Gia Huy","Nguyễn Duy Khang","Nguyễn Tuấn Khang",
+    "Nguyễn Tuấn Kiệt","Hồ Gia Lộc","Nguyễn Thị Cẩm Ly","Lâm Hoàng Minh",
+    "Nguyễn Trộng Nam","Nguyễn Thu Ngân","Trần Tấn Nguyên","Mai Huỳnh Như",
+    "Nguyễn Trường Phát","Nguyễn Thị Kim Phúc","Nguyễn Thị Trúc Phượng",
+    "Lại Thanh Sang","Trịnh Quốc Thái","Lê Quang Thịnh","Trần Thị Ngọc Thoại",
+    "Trần Thanh Tiến","Nguyễn Thành Til","Lê Chung Tình","Nguyễn Xoan Trà",
+    "Nguyễn Lê Cát Tường","Lê Trần Quốc Việt","Bùi Lê Bảo Vy","Bùi Thị Ngọc Vy",
+    "Lê Thị Kiều Vy","Nguyễn Nhật Hạ Vy","Trần Ngọc Khánh Vy"
+  ],
+
+  "10A5": [
+    "Trần Tuấn Anh","Bùi Quốc Bảo","Cao Thiên Bằng","Nguyễn Thị Ngọc Diễm",
+    "Trần Thị Thúy Diễm","Nguyễn Hoàng Du","Nguyễn Trọng Du","Lê Khánh Duy",
+    "Nguyễn Thành Duy","Trương Thị Thùy Duyên","Nguyễn Thành Đạt","Vũ Tiến Đạt",
+    "Bùi Lê Hòa Đồng","Nguyễn Thị Ngọc Hân","Đặng Hoài Hiệp","Nguyễn Đặng Quốc Huy",
+    "Nguyễn Võ Nhật Huy","Tống Đức Minh Khang","Nguyễn Thanh Lâm",
+    "Phan Thị Cẩm Ly","Nguyễn Hoàng Mạnh","Nguyễn Lê Hải Nam",
+    "Trần Thị Kim Ngân","Nguyễn Thị Hồng Ngọc","Huỳnh Trọng Nguyễn",
+    "Nguyễn Bùi Yến Nhi","Nguyễn Minh Phát","Thái Lương Anh Quân","Võ Thanh Quân",
+    "Nguyễn Thành","Nguyễn Ngọc Thiện","Huỳnh Minh Tiến","Phạm Hồng Tính",
+    "Lê Thị Ngọc Trâm","Đặng Minh Triết","Nguyễn Thị Thanh Tuyền",
+    "Lê Ngọc Khánh Vy","Nguyễn Ngô Nhật Vy"
+  ],
+
+  "10A6": [
+    "Lê Nguyễn Huỳnh Anh","Nguyễn Ngọc Trâm Anh","Nguyễn Thị Hồng Anh",
+    "Hồ Bảo Châu","Phạm Minh Châu","Nguyễn Đinh Mi Du","Nguyễn Minh Đăng",
+    "Phạm Minh Đăng","Lê Ngọc Hà","Phan Thị Ngọc Hoa","Nguyễn Quốc Huy",
+    "Phạm Duy Khang","Nguyễn Vũ Khánh","Lê Anh Tuấn Kiệt",
+    "Nguyễn Thái Thùy Lâm","Hồ Quỳnh Mai","Mang Hoàng Nam","Huỳnh Kim Ngân",
+    "Nguyễn Thanh Ngọc","Bùi Thị Thảo Nguyên","Nguyễn Thị Thảo Nguyên",
+    "Nguyễn Thị Quỳnh Như","Phạm Anh Thư","Nguyễn Ngọc Tiên",
+    "Vỏ Thị Mỷ Tiên","Hồ Thị Huyền Trân","Võ Thị Huyền Trân","Nguyễn Minh Trí",
+    "Trần Ngọc Như Trúc","Nguyễn Phan Mỹ Tú","Lê Thị Hồng Vy",
+    "Nguyễn Huỳnh Thảo Vy","Nguyễn Trần Tường Vy","Trần Triệu Vy",
+    "Nguyễn Thị Như Ý","Nguyễn Thị Ngọc Yến","Trần Nguyễn Hoàng Yến"
+  ],
+
+  "11A1": [
+  "Nguyễn Thị Kim Chi",
+  "Nguyễn Thành Chí",
+  "Trần Lâm Duy",
+  "Tạ Thị Hồng Đào",
+  "Nguyễn Hoàng Trí Đức",
+  "Tô Ngọc Hân",
+  "Châu Minh Hiếu",
+  "Trần Minh Hiếu",
+  "Trịnh Minh Hiếu",
+  "Nguyễn Đăng Gia Huy",
+  "Trần Khắc Huy",
+  "Phạm Đăng Khoa",
+  "Cao Trần Đăng Khôi",
+  "Trần Trọng Khôi",
+  "Huỳnh Châu Kỳ",
+  "Hà Hải Long",
+  "Nguyễn Phước Lộc",
+  "Nguyễn Thị Kiều My",
+  "Hứa Bùi Thanh Nam",
+  "Lê Hồ Kim Ngân",
+  "Huỳnh Phúc Như Nguyệt",
+  "Nguyễn Thành Nhân",
+  "Nguyễn Lê Vân Nhi",
+  "Đặng Minh Phát",
+  "Nguyễn Tấn Phát",
+  "Bùi Vĩnh Phú",
+  "Trần Châu Thanh Phú",
+  "Nguyễn Minh Quân",
+  "Nguyễn Bảo Sơn",
+  "Cao Chí Sự",
+  "Nguyễn Hoàng Mỹ Tâm",
+  "Hồ Lê Hoàng Thái",
+  "Nguyễn Phúc Thịnh",
+  "Trần Nhật Tiến",
+  "Lê Thành Tín",
+  "Lê Ngọc Trâm",
+  "Phan Minh Trọng",
+  "Trần Thị Nhã Trúc",
+  "Trà Trung Trực",
+  "Hà Phi Vĩnh Tường",
+  "Huỳnh Thị Kim Vàng",
+  "Lê Thúy Vy"
+],
+
+"11A2": [
+  "Trà Hoàng Anh",
+  "Nguyễn Sông Duy",
+  "Nguyễn Hải Đăng",
+  "Nguyễn Thái Diễn",
+  "Nguyễn Thị Tâm Đoan",
+  "Nguyễn Nhật Hào",
+  "Nguyễn Thị Ngọc Hân",
+  "Hà Trung Hiếu",
+  "Trần Gia Huy",
+  "Phan Minh Kha",
+  "Phan Dương Khải",
+  "Phan Huỳnh Nhựt Lâm",
+  "Ngô Văn Lợi",
+  "Vũ Thế Luân",
+  "Nguyễn Thị Hà My",
+  "Thái Ngọc Trà My",
+  "Võ Hoài Nam",
+  "Tiểu Phương Nghi",
+  "Huỳnh Thiện Nhân",
+  "Huỳnh Thị Yến Nhi",
+  "Nguyễn Minh Nhựt",
+  "Huỳnh Phong Phú",
+  "Đỗ Gia Phúc",
+  "Mang Vũ Quyên",
+  "Phan Thị Hồng Quyên",
+  "Đỗ Thị Nhã Quỳnh",
+  "Lê Xuân Quỳnh",
+  "Tạ Thiên Thanh",
+  "Nguyễn Kim Thi",
+  "Nguyễn Lê Huy Thuận",
+  "Nguyễn Gia Thức",
+  "Nguyễn Ngọc Bảo Thy",
+  "Trần Minh Tín",
+  "Nguyễn Quốc Toàn",
+  "Hồ Nguyễn Thùy Trâm",
+  "Nguyễn Thị Ngọc Trâm",
+  "Nguyễn Thành Phát Triển",
+  "Nguyễn Huỳnh Phú Trọng",
+  "Hồ Thị Kim Tuyền",
+  "Ngô Thị Hồng Tươi",
+  "Lê Nguyễn Nhã Vân",
+  "Trần Nguyễn Thúy Vy",
+  "Lê Thị Hải Yến"
+],
+
+"11A3": [
+  "Phạm Tuấn Anh",
+  "Trần Ngọc Vân Anh",
+  "Nguyễn Quốc Bảo",
+  "Trần Gia Bảo",
+  "Nguyễn Thị Khánh Băng",
+  "Phan Gia Băng",
+  "Nguyễn Hà Sơn Ca",
+  "Bùi Trường Giang",
+  "Nguyễn Quang Hà",
+  "Đỗ Tấn Hào",
+  "Trần Gia Hân",
+  "Hồ Thanh Hoài",
+  "Trần Gia Huy",
+  "Trần Thị Phương Khanh",
+  "Huỳnh Đăng Khoa",
+  "Trần Đăng Khoa",
+  "Điền Thị Ngọc Lam",
+  "Bùi Thanh Liêm",
+  "Nguyễn Hoàng Long",
+  "Nguyễn Thành Lợi",
+  "Đặng Bá Luân",
+  "Hồ Minh Nguyệt",
+  "Trần Thị Yến Nhi",
+  "Lê Hà Hằng Ni",
+  "Phạm Minh Phát",
+  "Đặng Trọng Phúc",
+  "Mang Trần Khánh Phương",
+  "Dương Hồ Như Quỳnh",
+  "Hồ Minh Tính",
+  "Nguyễn Kim Tuyền",
+  "Lý Mỹ Uyên",
+  "Dư Nguyễn Tường Vy",
+  "Đặng Ngọc Khánh Vy",
+  "Lê Thị Kiều Vy",
+  "Nguyễn Trúc Vy",
+  "Trần Ngọc Thảo Vy"
+],
+
+"11A4": [
+  "Nguyễn Quỳnh Anh",
+  "Văn Văn Bạc",
+  "Trần Khánh Băng",
+  "Huỳnh Khánh Duy",
+  "Đỗ Thùy Dương",
+  "Nguyễn Tấn Đạt",
+  "Trần Nhật Hào",
+  "Nguyễn Hồng Hào",
+  "Nguyễn Gia Hân",
+  "Nguyễn Thị Diệu Hân",
+  "Nguyễn Huỳnh Hương",
+  "Trương Anh Khôi",
+  "Võ Anh Khôi",
+  "Nguyễn Thị Cẩm Ly",
+  "Nguyễn Thành Minh",
+  "Nguyễn Thị Kiều My",
+  "Nguyễn Thị Kim Ngân",
+  "Trần Hoàng Hải Nghi",
+  "Trần Thị Bảo Ngọc",
+  "Phạm Thị Y Nhi",
+  "Ne Ang Quỳnh Như",
+  "Trần Tâm Như",
+  "Võ Thị Quỳnh Như",
+  "Huỳnh Gia Phú",
+  "Nguyễn Hoàng Phụng",
+  "Đào Huỳnh Phương",
+  "Đặng Thành Tâm",
+  "Tạ Đức Thịnh",
+  "Cao Trung Tín",
+  "Phạm Thị Thùy Trang",
+  "Nguyễn Ngọc Trâm",
+  "Giang Thị Bảo Trân",
+  "Nguyễn Minh Triều",
+  "Đặng Nhật Trường",
+  "Phạm Tú",
+  "Đoàn Bích Tuyền",
+  "Trần Văn Việt",
+  "Lê Ngọc Phương Vy",
+  "Lê Ngọc Tường Vy"
+],
+
+"11A5": [
+  "Lê Thị Thu An",
+  "Nguyễn Thị Hoài An",
+  "Nguyễn Hoàng Ân",
+  "Trần Tam Bảo",
+  "Lê Thị Khánh Băng",
+  "Nguyễn Thị Kim Chi",
+  "Nguyễn Thị Ngọc Dung",
+  "Nguyễn Khánh Duy",
+  "Nguyễn Thị Ngọc Giàu",
+  "Lê Văn Hạo",
+  "Đặng Trung Hiếu",
+  "Nguyễn Huy Hoàng",
+  "Nguyễn Thị Ngọc Hương",
+  "Lê Thanh Khương",
+  "Hồ Nguyễn Cao Kỳ",
+  "Nguyễn Thành Lộc",
+  "Vũ Hoàng Mạnh Nam",
+  "Phan Thị Kim Ngân",
+  "Hà Nguyễn Yến Nhi",
+  "Nguyễn Trung Nhựt",
+  "Đặng Nguyễn Hoàng Quân",
+  "Huỳnh Lê Hoàng Quân",
+  "Nguyễn Vũ Phương Thảo",
+  "Phạm Hồng Thắm",
+  "Cao Anh Thư",
+  "Hà Minh Tiến",
+  "Nguyễn Thị Thùy Trang",
+  "Hồ Minh Trí",
+  "Lê Nhật Trường",
+  "Võ Thị Cẩm Tú",
+  "Phan Thị Bích Vân",
+  "Trần Tường Vi",
+  "Đỗ Lê Vinh",
+  "Đặng Hồng Thảo Vy",
+  "Võ Nhựt Ý"
+],
+
+"11A6": [
+  "Trần Thị Ngọc Ái",
+  "Vũ Ngọc Anh",
+  "Nguyễn Lê Gia Bảo",
+  "Đặng Khánh Băng",
+  "Tạ Đình Chương",
+  "Ngô Khánh Duy",
+  "Nguyễn Khánh Duy",
+  "Trần Khương Duy",
+  "Hồ Mỹ Duyên",
+  "Nguyễn Tấn Đạt",
+  "Nguyễn Khánh Đăng",
+  "Hà Gia Huy",
+  "Hồng Thanh Huy",
+  "Lê Gia Huy",
+  "Nguyễn Huỳnh Quốc Huy",
+  "Trịnh Hoàng Huy",
+  "Nguyễn Gia Khiêm",
+  "Huỳnh Trung Kiên",
+  "Huỳnh Giao Linh",
+  "Nguyễn Ngọc Mai",
+  "Nguyễn Ngọc Ngân",
+  "Bùi Nguyễn Nguyên",
+  "Nguyễn Tấn Phát",
+  "Trần Anh Quân",
+  "Phan Nguyễn Hoàng Sơn",
+  "Đỗ Minh Thảo",
+  "Phùng Thị Kim Thoại",
+  "Lê Hoàng Thông",
+  "Lê Thị Diễm Trang",
+  "Lại Thị Phương Trinh",
+  "Nguyễn Thị Ngọc Trinh",
+  "Nguyễn Thành Vinh",
+  "Lê Phạm Tường Vy",
+  "Nguyễn Thị Thúy Vy",
+  "Trần Thị Như Ý"
+],
+
+"11A7": [
+  "Hà Quốc Anh",
+  "Nguyễn Mẫn Vi Anh",
+  "Nguyễn Gia Bảo",
+  "Tống Thị Khánh Dư",
+  "Trần Thị Ngọc Hân",
+  "Huỳnh Trung Hậu",
+  "Nguyễn Thị Ngọc Hiếu",
+  "Nguyễn Tuấn Hùng",
+  "Phạm Lê Nhật Huy",
+  "Nguyễn Trọng Khôi",
+  "Nguyễn Lâm Hữu Kim",
+  "Hồ Anh Kỳ",
+  "Trần Nguyễn Hà My",
+  "Huỳnh Nguyễn Thiên Ngân",
+  "Trương Bảo Ngọc",
+  "Lê Nguyễn Kim Nguyên",
+  "Đặng Thành Nhân",
+  "Nguyễn Thành Nhân",
+  "Phan Minh Phát",
+  "Trần Phúc Lộc Quý",
+  "Võ Minh Thành",
+  "Phạm Thanh Thảo",
+  "Mai Hữu Thắng",
+  "Võ Minh Tiến",
+  "Nguyễn Bùi Vy Uyên",
+  "Hồ Phương Vy",
+  "Huỳnh Thúy Vy",
+  "Nguyễn Ngọc Như Ý",
+  "Phạm Hải Yến"
+],
+
+  "12A1": [
+  "Nguyễn Ngô Quốc Bảo","Võ Lê Khánh Băng","Nguyễn Nhật Cường","Nguyễn Huyền Diệu",
+  "Lê Khánh Hoàng","Nguyễn Hoàng","Nguyễn Quốc Huy","Huỳnh Quốc Hưng",
+  "Lê Quang Hưng","Nguyễn Đình Khôi","Huỳnh Gia Kỳ","Trần Thị Tường Lam",
+  "Nguyễn Thùy Lâm","Phan Lê Phương Linh","Lê Văn Luân","Nguyễn Minh Luân",
+  "Dương Bình Minh","Bùi Trần Xuân Nghi","Phạm Nguyễn","Trần Minh Nhật",
+  "Nguyễn Thị Yến Nhi","Trần Khánh Như","Lê Long Nhựt","Trần Gia Phát",
+  "Hà Hồng Phúc","Trần Minh Thành","Bùi Thị Anh Thư","Ngô Thanh Thư",
+  "Đỗ Thị Bảo Thy","Cao Đức Toàn","Bùi Trà Ngọc Trâm","Đặng Thị Ngọc Trâm",
+  "Phạm Thị Bích Trâm","Trần Lê Trâm","Phạm Thị Ngọc Trân",
+  "Đặng Phạm Minh Triết","Nguyễn Lâm Trường","Trịnh Nhã Vân",
+  "Lê Thị Triệu Vy","Nguyễn Thị Yến Vy","Nguyễn Tường Vy",
+  "Phan Thị Tường Vy","Trần Yến Vy","Đỗ Ngọc Như Ý",
+  "Nguyễn Ngọc Như Ý","Liêu Nguyễn Bình Yên"
+  ],
+
+  "12A2": [
+  "Cao Gia Bảo","Lý Kim Cương","Ngô Hiếu Duy","Tạ Hữu Duy","Tạ Hữu Duy",
+  "Dương Tiến Đạt","Nguyễn Phát Đạt","Trần Quốc Đăng",
+  "Nguyễn Thị Ngọc Đẹp","Đặng Nguyễn Thái Hòa","Nguyễn Văn Hùng",
+  "Nguyễn Đặng Quốc Huy","Huỳnh Tấn Khoa","Trần Mỹ Linh",
+  "Nguyễn Ngọc Kim Ngân","Lê Phương Diễm Ngọc","Nguyễn Trường Nguyên",
+  "Ngô Hồng Nhung","Lê Đặng Thảo Như","Trần Thị Huỳnh Như",
+  "Nguyễn Thùy Bạch Phấn","Nguyễn Môn Phi","Trần Thanh Phú",
+  "Đặng Thị Hồng Phúc","Tạ Hoài Phúc","Trần Bảo Phúc",
+  "Trần Văn Phúc","Lạc Tuyết Phương","Lê Ngọc Quý",
+  "Bến Nhựt Quỳnh","Phan Thị Mỹ Tâm","Nguyễn Bùi Thanh Thảo",
+  "Khưu Thị Mỹ Trâm","Dương Hoàng Trí","Nguyễn Thị Thanh Trúc",
+  "Nguyễn Nhật Trung","Nguyễn Minh Trường","Nguyễn Thị Bội Tuyền",
+  "Nguyễn Thị Ánh Tuyết","Lâm Bảo Văn","Nguyễn Thành Văn",
+  "Phan Lê Gia Văn","Tạ Thanh Vân","Nguyễn Cao Tường Vy",
+  "Nguyễn Thị Hồng Yến"
+],
+
+"12A3": [
+  "Nguyễn Hoàng Anh",
+  "Mang Trần Thái Bảo",
+  "Nguyễn Si Bel",
+  "Lê Hoàng Boi",
+  "Huỳnh Anh Duy",
+  "Dương Thành Đạt",
+  "Nguyễn Thành Đạt",
+  "Nguyễn Thu Hồng",
+  "Lê Thị Mộng Huệ",
+  "Trần Anh Kha",
+  "Lê Minh Khôi",
+  "Đặng Anh Kiệt",
+  "Nguyễn Như Lâm",
+  "Lê Ngọc Ngân",
+  "Võ Thị Kim Ngân",
+  "Phạm Minh Nghĩa",
+  "Lê Trần Thụy Yến Nhi",
+  "Dương Thị Quỳnh Như",
+  "Phạm Quỳnh Như",
+  "Lâm Minh Nhựt",
+  "Nguyễn Võ Ninh",
+  "Lê Tấn Phát",
+  "Cao Nhựt Phi",
+  "Huỳnh Văn Phong",
+  "Đỗ Trọng Phúc",
+  "Trần Minh Phúc",
+  "Võ Đình Phúc",
+  "Trần Tiến Sĩ",
+  "Nguyễn Quốc Thái",
+  "Võ Thị Mộng Thường",
+  "Nguyễn Nhật Tiến",
+  "Chung Thùy Trúc",
+  "Phạm Minh Trung",
+  "Phan Chí Trung",
+  "Phạm Biện Hoàng Tuấn",
+  "Nguyễn Thị Bích Tuyền",
+  "Lê Thanh Vân",
+  "Nguyễn Thị Yến Vy"
+],
+
+"12A4": [
+  "Nguyễn Đặng Hoài An",
+  "Lê Gia Bảo",
+  "Nguyễn Thế Bảo",
+  "Đặng Hồng Cẩm",
+  "Nguyễn Trần Ngọc Châu",
+  "Trần Hải Dương",
+  "Nguyễn Tiến Đạt",
+  "Nguyễn Thị Ngọc Hà",
+  "Thái Thanh Hà",
+  "Lê Nhật Hào",
+  "Hồ Cẩm Hằng",
+  "Ngô Thị Hồng Hoa",
+  "Phan Đặng Huy Hoàng",
+  "Đinh Vĩnh Hưng",
+  "Huỳnh Đăng Kha",
+  "Lê Nguyễn Nhật Lam",
+  "Nguyễn Thị Trà My",
+  "Nguyễn Trọng Nghĩa",
+  "Lê Thái Kim Ngọc",
+  "Lê Thị Ngọc",
+  "Nguyễn Thảo Nguyên",
+  "Trần Thành Nhân",
+  "Dương Huỳnh Yến Nhi",
+  "Trương Thị Thảo Nhi",
+  "Biện Thị Huỳnh Như",
+  "Nguyễn Ngọc Quỳnh Như",
+  "Hà Ngọc Quí",
+  "Đặng Thị Phương Thanh",
+  "Trần Thị Hồng Thắm",
+  "Phạm Minh Thùy",
+  "Nguyễn Thị Anh Thư",
+  "Trần Hoàng Bảo Thy",
+  "Hà Bảo Trân",
+  "Phạm Bảo Trân",
+  "Nguyễn Lê Hồng Trúc",
+  "Đặng Thị Hồng Tươi",
+  "Đặng Trà Vy"
+],
+
+"12A5": [
+  "Lại Thị Diễm",
+  "Nguyễn Thị Ngọc Diễm",
+  "Phạm Bùi Hải Dương",
+  "Huỳnh Bảo Đăng",
+  "Phan Thị Đẹp",
+  "Nguyễn Ngọc Hà",
+  "Phạm Nhật Hào",
+  "Cao Thị Ngọc Hân",
+  "Huỳnh Ngọc Hân",
+  "Phan Gia Hân",
+  "Trần Gia Hân",
+  "Lê Quang Hiển",
+  "Huỳnh Hồng Hưng",
+  "Đồng Đăng Khoa",
+  "Huỳnh Tấn Khoa",
+  "Nguyễn Đăng Khoa",
+  "Lê Thị Mộng Kiều",
+  "Nguyễn Đại Lợi",
+  "Nguyễn Bảo Minh",
+  "Huỳnh Thái Nghiêm",
+  "Cao Thị Tuyết Nhi",
+  "Mang Thị Yến Nhi",
+  "Nguyễn Yến Nhi",
+  "Đặng Thị Quỳnh Như",
+  "Cao Thị Thúy Phi",
+  "Nguyễn Ngọc Quyên",
+  "Nguyễn Thành Tuấn",
+  "Nguyễn Thị Cẩm Tiên",
+  "Hà Thị Ngọc Trang",
+  "Ngô Thị Huyền Trâm",
+  "Nguyễn Ngọc Trâm",
+  "Nguyễn Trần Minh Triết",
+  "Nguyễn Dạ Hải Triều",
+  "Đặng Thị Thanh Trúc",
+  "Nguyễn Thanh Tuyền",
+  "Tạ Thị Tường Vi",
+  "Nguyễn Tuấn Vỹ",
+  "Lê Thị Như Ý"
+],
+
+"12A6": [
+  "Lê Văn Bình",
+  "Võ Minh Cảnh",
+  "Nguyễn Ngọc Châu",
+  "Huỳnh Tấn Cường",
+  "Lê Thị Tuyết Đan",
+  "Trần Thanh Duy",
+  "Trần Duy Diễn",
+  "Lê Thị Hồng Gấm",
+  "Lê Anh Hào",
+  "Lê Gia Hân",
+  "Trần Nhật Hiền",
+  "Trương Quang Huy",
+  "Nguyễn Tấn Hưng",
+  "Phạm Anh Kiệt",
+  "Huỳnh Thị Thùy Linh",
+  "Bùi Thị Tuyết Loan",
+  "Nguyễn Thanh Lộc",
+  "Lê Minh",
+  "Nguyễn Thị Trà My",
+  "Phạm Kim Ngân",
+  "Trần Châu Pha",
+  "Hồ Thanh Phong",
+  "Đặng Thành Phú",
+  "Nguyễn Hiếu Thụy",
+  "Nguyễn Minh Tiến",
+  "Nguyễn Thái Toàn",
+  "Cao Thị Mai Trâm",
+  "Mang Thị Quyên Trâm",
+  "Trần Huyền Trân",
+  "Cao Ngọc Triển",
+  "Văn Thị Thu Trinh",
+  "Lê Thành Trung",
+  "Đặng Thị Hồng Tú",
+  "Nguyễn Thị Cẩm Tú",
+  "Nguyễn Hà Thiên Vân",
+  "Huỳnh Triệu Vy"
+],
+
+"12A7": [
+  "Nguyễn Tuấn Anh",
+  "Lê Huỳnh Gia Bảo",
+  "Nguyễn Thái Bảo",
+  "Phạm Ngọc Minh Châu",
+  "Đặng Bảo Duy",
+  "Cù Nguyễn Quỳnh Giang",
+  "Trương Gia Hào",
+  "Nguyễn Thị Ngọc Hân",
+  "Lê Duy Hòa",
+  "Lê Hoàng Huy",
+  "Nguyễn Ngọc Minh Huy",
+  "Trần Thanh Huyền",
+  "Trần Bảo Khang",
+  "Nguyễn Hoàng Đăng Khoa",
+  "Nguyễn Thị Thu Ngân",
+  "Huỳnh Phương Nghi",
+  "Nguyễn Thành Nhân",
+  "Lê Qui Vũ Nhi",
+  "Nguyễn Ngọc Nhi",
+  "Trương Thị Quỳnh Như",
+  "Hồ Chí Phát",
+  "Lê Hồng Phúc",
+  "Văn Ngọc Tân",
+  "Huỳnh Văn Tấn",
+  "Phan Văn Nhựt Thái",
+  "Dương Tấn Thiện",
+  "Hà Thị Minh Thư",
+  "Huỳnh Thị Bảo Thy",
+  "Nguyễn Thế Toàn",
+  "Lê Huỳnh Ngọc Trai",
+  "Châu Thị Bảo Trân",
+  "Nguyễn Hữu Trí",
+  "Nguyễn Thị Diễm Trinh",
+  "Trần Văn Trọng",
+  "Nguyễn Thị Thúy Vân",
+  "Nguyễn Quang Vinh"
+]
+
+}
+
+function openTab(id,el){
+  document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+
+}
+
+const classSelect=document.getElementById("class");
+for(let c in studentsByClass){
+  classSelect.innerHTML+=`<option>${c}</option>`;
+}
+
+function loadStudents(){
+  const cls=classSelect.value;
+  const stu=document.getElementById("student");
+  stu.innerHTML='<option value="">-- Chọn tên --</option>';
+  if(!cls) return;
+  studentsByClass[cls].forEach(s=>{
+    stu.innerHTML+=`<option>${s}</option>`;
+  });
+}
+
+ function addOrder(e){
+  e.preventDefault();
+
+   const order = {
+    class: classSelect.value,
+    name: document.getElementById("student").value,
+    food: document.getElementById("food").value,
+    qty: Number(document.getElementById("qty").value),
+    note: document.getElementById("note").value,
+    time: Date.now()
+  };
+
+  database.ref("orders").push(order)
+
+  showPopup("🔥 Đặt món thành công!");
+  e.target.reset(); // ✅ RESET SAU
+}
+
+const historyBody = document.getElementById("history-body");
+
+database.ref("orders").on("child_added", snap => {
+  const o = snap.val();
+
+  const time = new Date(o.time).toLocaleString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${o.name}</td>
+    <td>${o.class}</td>
+    <td>${o.food}</td>
+    <td>${o.qty}</td>
+    <td>${o.note || ""}</td>
+    <td>${time}</td>
+  `;
+  historyBody.prepend(tr);
+});
+
+database.ref("orders").on("value", snapshot => {
+  const data = snapshot.val();
+  if(!data) return;
+
+  const count = {
+    "bap-nho":0,
+    "bap-lon":0,
+    "xoai":0,
+    "tra":0
+  };
+
+  const body = document.getElementById("history-body");
+  body.innerHTML = "";
+
+  Object.values(data).forEach(o => {
+    count[o.food] += o.qty;
+
+    body.innerHTML += `
+      <tr>
+        <td>${o.name}</td>
+        <td>${o.class}</td>
+        <td>${o.food}</td>
+        <td>${o.qty}</td>
+        <td>${o.note || ""}</td>
+        <td>${new Date(o.time).toLocaleString()}</td>
+      </tr>
+    `;
+  });
+
+  for(let k in count){
+    if(document.getElementById(k))
+      document.getElementById(k).innerText = count[k];
+  }
+
+});
+
+function addReview(e){
+  e.preventDefault();
+
+  const review = {
+    name: document.getElementById("review-name").value,
+    class: document.getElementById("review-class").value,
+    food: document.getElementById("review-food").value,
+    star: Number(document.getElementById("review-star").value),
+    text: document.getElementById("review-text").value,
+    time: Date.now()
+  };
+
+  database.ref("reviews").push(review)
+    .then(() => {
+      alert("Đã gửi đánh giá!");
+      e.target.reset();
+    });
+}
+
+database.ref("reviews").on("value", snapshot => {
+  const data = snapshot.val();
+  const ul = document.getElementById("review-list");
+  ul.innerHTML = "";
+  if(!data) return;
+
+  Object.values(data).reverse().forEach(r => {
+    ul.innerHTML += `
+      <li>
+        <b>${r.name}</b> (${r.class}) – ${r.food} – ${"★".repeat(r.star)}
+        <br>${r.text || ""}
+      </li>
+    `;
+  });
+});
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    alert("🎉 Mua từ hai món trở lên sẽ được bốc thăm trúng thưởng!");
+  }, 500);
+});
+
+function showPopup(text){
+  const p = document.getElementById("popup");
+  p.innerText = text;
+  p.classList.add("show");
+  setTimeout(()=>p.classList.remove("show"),3000);
+}
+
+</script>
+
+</body>
+</html>
